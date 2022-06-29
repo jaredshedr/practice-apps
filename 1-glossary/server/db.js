@@ -38,8 +38,7 @@ let save = function (word) {
 }
 
 let updateOne = function (data, callback) {
-
-  Word.findOneAndUpdate({name: data.word}, {description: data.newDesc}, (err, result) => {
+  Word.findOneAndUpdate({name: data.word}, {description: data.newDesc}, {upsert: true}, (err, result) => {
     if (err) {
       console.log('error updating', err);
       callback(err, null);
@@ -57,9 +56,22 @@ let deleteOne = function (word, callback) {
     .catch(err => console.log('error deleting', err))
 }
 
+let addOne = function (data, callback) {
+
+  Word.findOneAndUpdate({name: data.newName}, {name: data.newName, description: data.newDesc}, {upsert: true}, (err, result) => {
+    if (err) {
+      console.log('error updating', err);
+      callback(err, null);
+    } else {
+      callback(null, result);
+    }
+  });
+}
+
 
 
 module.exports.getAll = getAll
 module.exports.save = save
 module.exports.deleteOne = deleteOne
 module.exports.updateOne = updateOne
+module.exports.addOne = addOne

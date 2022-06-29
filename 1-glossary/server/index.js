@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
-const { getAll, save, deleteOne, updateOne } = require('./db')
+const { getAll, save, deleteOne, updateOne, addOne } = require('./db')
 const { dictionaryGetta } = require('./dict')
 
 const app = express();
@@ -34,6 +34,24 @@ app.post('/words', (req, res) => {
       save(result)
       let tempObj = {id: result.meta.uuid, name: result.meta.stems[0], type: result.fl, description: result.shortdef[0]};
       res.status(201).send(tempObj);
+    }
+  })
+})
+
+app.post('/words/fake', (req, res) => {
+
+  addOne(req.body, (err, data) => {
+    if (err) {
+      console.log('error adding balogna word', err);
+    } else {
+      getAll((err, allData) => {
+        if (err) {
+          console.log('error getting all in server', err);
+          res.status(500)
+        } else {
+          res.status(200).send(allData);
+        }
+      })
     }
   })
 })
@@ -72,6 +90,7 @@ app.put('/words', (req, res) => {
     }
   })
 })
+
 
 
 app.listen(process.env.PORT);

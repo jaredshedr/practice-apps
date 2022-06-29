@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import NewWord from './components/NewWord.jsx'
 import RenderWords from './components/RenderWords.jsx'
+import ManualAdd from './components/ManualAdd.jsx'
+
 const axios = require('axios');
 
 class App extends React.Component {
@@ -14,6 +16,7 @@ class App extends React.Component {
     this.search = this.search.bind(this);
     this.deleteOne = this.deleteOne.bind(this);
     this.editOne = this.editOne.bind(this);
+    this.manualAddOnClick = this.manualAddOnClick.bind(this);
   }
 
   componentDidMount () {
@@ -68,12 +71,25 @@ class App extends React.Component {
       .catch(err => console.log('error adjusting description'))
   }
 
+  manualAddOnClick (name, description) {
+
+    let makeStuffUp = {newName: name, newDesc: description}
+    axios.post('/words/fake', makeStuffUp)
+      .then((response) => {
+        this.setState({
+          allWords: response.data
+        })
+      })
+      .catch((err) => {console.log('error making up words', err)})
+  }
+
 
   render () {
     return (
       <div>
         <h2> Glossary </h2>
         <NewWord appSearch={this.search}/>
+        <ManualAdd manual={this.manualAddOnClick}/>
         <RenderWords words={this.state.allWords} deleteOne={this.deleteOne} editOne={this.editOne}/>
       </div>
     )

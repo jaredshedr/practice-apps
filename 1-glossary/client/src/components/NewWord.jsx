@@ -27,7 +27,7 @@ class NewWord extends React.Component {
     return (
       <div>
         <input onChange={this.search}></input>
-        <button onClick={this.submit}>Search Word</button>
+        <button onClick={this.submit}>Add Word</button>
       </div>
     )
   }
