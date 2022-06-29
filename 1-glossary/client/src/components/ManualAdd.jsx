@@ -36,6 +36,7 @@ class ManualAdd extends React.Component {
   render () {
     return (
       <form>
+        <h3>Make Up Some Nonsense</h3>
         <input onChange={this.nameUpdater} placeholder="Name of Word"></input>
         <input onChange={this.descUpdater} placeholder="Description"></input>
         <button onClick={this.submitNew}> Make up a Word</button>
