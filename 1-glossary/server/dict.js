@@ -8,7 +8,10 @@ let dictionaryGetta = function (word, callback) {
     .then((results) => {
       callback(null, results.data[0])
     })
-    .catch((err) => {console.log('error retrieving words', err)})
+    .catch((err) => {
+      console.log('error retrieving words', err);
+      callback(err, null)
+    })
 }
 
 

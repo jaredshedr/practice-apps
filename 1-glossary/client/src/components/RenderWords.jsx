@@ -5,7 +5,7 @@ let RenderWords = function (props) {
   return (
     <div>
       <ol>
-        {props.words.map((word, index) => <RenderWord word={word} key={index} deleteOne={props.deleteOne}/> )}
+        {props.words.map((word, index) => <RenderWord word={word} key={index} deleteOne={props.deleteOne} editOne={props.editOne}/> )}
       </ol>
     </div>
   )
