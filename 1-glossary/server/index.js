@@ -1,7 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
-const {getAll} = require('./db')
+const { getAll, save, findOne } = require('./db')
+const { dictionaryGetta } = require('./dict')
 
 const app = express();
 
@@ -18,14 +19,22 @@ app.get('/words', (req, res) => {
       console.log('error getting all in server', err);
       res.status(500)
     } else {
-      console.log(data);
       res.status(200).send(data);
     }
   })
 })
 
 app.post('/words', (req, res) => {
-  console.log(req.body.newWord)
+
+  dictionaryGetta(req.body.newWord, (err, result) => {
+    if (err) {
+      console.log('error finding word', err);
+    } else {
+      save(result)
+      let tempObj = {id: result.meta.uuid, name: result.meta.stems[0], type: result.fl, description: result.shortdef[0]}
+      res.status(201).send(tempObj)
+    }
+  })
 })
 
 app.listen(process.env.PORT);

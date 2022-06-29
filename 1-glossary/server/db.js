@@ -8,7 +8,7 @@ mongoose.connect(`mongodb://localhost/${process.env.DB_NAME}`)
 // 4. Import the models into any modules that need them
 
 let wordSchema = mongoose.Schema({
-  id: Number, // uuid
+  id: String, // uuid
   name: String, // id
   type: String, // fl
   description: String // shortdef ** array of strings
@@ -23,15 +23,26 @@ let getAll = function (callback) {
       console.log('error in get all', err);
       callback(err, null)
     } else {
-      console.log(results);
       callback(null, results);
     }
-
   })
+}
+
+let save = function (word) {
+  let tempWord = new Word({id: word.meta.uuid, name: word.meta.stems[0], type: word.fl, description: word.shortdef[0]});
+  tempWord.save((err) => {
+    if (err) {
+      console.log('error saving', err);
+    }
+  });
+}
+
+let findOne = function (word) {
+
 }
 
 
 
-
-
 module.exports.getAll = getAll
+module.exports.save = save
+module.exports.findOne = findOne
