@@ -12,6 +12,7 @@ class App extends React.Component {
     }
 
     this.search = this.search.bind(this);
+    this.deleteOne = this.deleteOne.bind(this);
   }
 
   componentDidMount () {
@@ -38,13 +39,24 @@ class App extends React.Component {
       .catch(err => console.log('error posting word', err))
   }
 
+  deleteOne (word) {
+    console.log('clicked button', word);
+    axios.delete('/words', { data: {newWord: word} })
+      .then((response) => {
+        this.setState({
+          allWords: response.data
+        })
+      })
+      .catch(err => console.log('error deleting', err))
+  }
+
 
   render () {
     return (
       <div>
         <h2> Glossary </h2>
         <NewWord appSearch={this.search}/>
-        <RenderWords words={this.state.allWords}/>
+        <RenderWords words={this.state.allWords} deleteOne={this.deleteOne}/>
       </div>
     )
   }

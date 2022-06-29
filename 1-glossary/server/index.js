@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("path");
-const { getAll, save, findOne } = require('./db')
+const { getAll, save, findOne, deleteOne } = require('./db')
 const { dictionaryGetta } = require('./dict')
 
 const app = express();
@@ -36,6 +36,24 @@ app.post('/words', (req, res) => {
     }
   })
 })
+
+app.delete('/words', (req, res) => {
+  deleteOne(req.body.newWord, (err, result) => {
+    if (err) {
+      console.log('error on delete', err)
+    } else {
+      getAll((err, data) => {
+        if (err) {
+          console.log('error getting all in server', err);
+          res.status(500)
+        } else {
+          res.status(200).send(data);
+        }
+      })
+    }
+  })
+})
+
 
 app.listen(process.env.PORT);
 console.log(`Listening at http://localhost:${process.env.PORT}`);

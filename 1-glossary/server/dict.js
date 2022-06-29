@@ -2,8 +2,6 @@ require("dotenv").config();
 const axios = require('axios');
 
 
-
-
 let dictionaryGetta = function (word, callback) {
 
   axios.get(`https://www.dictionaryapi.com/api/v3/references/collegiate/json/${word}?key=${process.env.API_KEY}`)

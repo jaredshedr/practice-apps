@@ -41,8 +41,17 @@ let findOne = function (word) {
 
 }
 
+let deleteOne = function (word, callback) {
+  Word.deleteOne({name: word})
+    .then(() => {
+      callback(null, 'success')
+    })
+    .catch(err => console.log('error deleting', err))
+}
+
 
 
 module.exports.getAll = getAll
 module.exports.save = save
+module.exports.deleteOne = deleteOne
 module.exports.findOne = findOne
