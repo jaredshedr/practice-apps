@@ -43,6 +43,11 @@ select {
   font: inherit;
 }
 
+button {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
 p,
 h1,
 h2,
