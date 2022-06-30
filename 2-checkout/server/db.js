@@ -19,6 +19,19 @@ db.connectAsync()
       "CREATE TABLE IF NOT EXISTS responses (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY)"
     )
   )
-  .catch((err) => console.log(err));
+  .catch((err) => console.log('this is the err', err));
+
+db.addOrUpdateFormOne = function (data, callback) {
+  console.log(data);
+  db.queryAsync('INSERT INTO USER (session_id, name, email, password) Values (?, ?, ?, ?)', [data.session, data.name, data.email, data.password], (err, success) => {
+    if (err) {
+      console.log('error inserting into db', err)
+      callback(err, null);
+    } else {
+      console.log('successful insert', success)
+      callback(null, success);
+    }
+  })
+}
 
 module.exports = db;
