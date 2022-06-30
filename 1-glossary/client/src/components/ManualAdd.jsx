@@ -29,6 +29,10 @@ class ManualAdd extends React.Component {
   submitNew () {
     event.preventDefault();
 
+    if (this.state.name === '') {
+      return;
+    }
+
     this.props.manual(this.state.name, this.state.description);
   }
 
