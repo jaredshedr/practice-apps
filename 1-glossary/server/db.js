@@ -38,7 +38,7 @@ let save = function (word) {
 }
 
 let updateOne = function (data, callback) {
-  Word.findOneAndUpdate({name: data.word}, {description: data.newDesc}, {upsert: true}, (err, result) => {
+  Word.findOneAndUpdate({name: data.word}, {name: data.newName, type: data.type, description: data.desc}, {upsert: true}, (err, result) => {
     if (err) {
       console.log('error updating', err);
       callback(err, null);

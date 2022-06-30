@@ -2,9 +2,8 @@ import react from "react";
 
 
 let RenderWord = function ({ word, deleteOne, editOne }) {
-
   return (
-    <li>
+    <li className='list-item'>
       <div>{word.name}</div>
       <div> <i>Type: </i>{word.type}</div>
       <div> <i>Description: </i> { word.description}</div>

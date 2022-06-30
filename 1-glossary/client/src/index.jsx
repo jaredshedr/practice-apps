@@ -13,7 +13,9 @@ class App extends React.Component {
     this.state = {
       allWords: [],
       filtered: [],
-      filterBool: false
+      filterBool: false,
+      editBool: false,
+      editWord: ''
     }
 
     this.search = this.search.bind(this);
@@ -21,6 +23,7 @@ class App extends React.Component {
     this.editOne = this.editOne.bind(this);
     this.manualAddOnClick = this.manualAddOnClick.bind(this);
     this.filter = this.filter.bind(this);
+    this.editOneHelper = this.editOneHelper.bind(this);
   }
 
   componentDidMount () {
@@ -63,13 +66,24 @@ class App extends React.Component {
 
   editOne (word) {
 
-    let prompt = window.prompt()
-    let adjust = {word: word, newDesc:prompt};
+    this.setState({
+      editBool: true,
+      editWord: word
+    })
+  }
+
+  editOneHelper(name, type, desc) {
+
+    console.log('ive been clicked', name, type, desc);
+
+    let adjust = {word: this.state.editWord, newName:name, type:type, desc: desc};
 
     axios.put('/words', adjust)
       .then((response) => {
         this.setState({
-          allWords: response.data
+          allWords: response.data,
+          editBool: false,
+          editWord: ''
         })
       })
       .catch(err => console.log('error adjusting description'))
@@ -111,7 +125,7 @@ class App extends React.Component {
         <NewWord appSearch={this.search}/>
         <ManualAdd manual={this.manualAddOnClick}/>
         <Filter filter={this.filter}/>
-        <RenderWords words={ this.state.filterBool === false ? this.state.allWords : this.state.filtered } deleteOne={this.deleteOne} editOne={this.editOne}/>
+        <RenderWords editOneHelper={this.editOneHelper} editBool={this.state.editBool} words={ this.state.filterBool === false ? this.state.allWords : this.state.filtered } deleteOne={this.deleteOne} editOne={this.editOne}/>
       </div>
     )
   }
