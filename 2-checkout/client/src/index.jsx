@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import FirstForm from './components/FirstForm.jsx'
+import SecondForm from './components/SecondForm.jsx'
+import ThirdForm from './components/ThirdForm.jsx'
 const axios = require('axios');
 
 
@@ -10,11 +12,15 @@ class App extends React.Component {
     this.state = {
       userCookie: JSON.stringify(document.cookie, undefined, "\t"),
       firstBtn: false,
-      secondBtn: false
+      secondBtn: false,
+      thirdBtn: false,
+      fourthBtn: false
     }
 
     this.firstCheckout = this.firstCheckout.bind(this);
     this.firstFormNext = this.firstFormNext.bind(this);
+    this.SecondFormNext = this.SecondFormNext.bind(this);
+    this.ThirdFormNext = this.ThirdFormNext.bind(this);
   }
 
   firstCheckout () {
@@ -41,12 +47,62 @@ class App extends React.Component {
     })
   }
 
+  SecondFormNext (address, apt, city, state, zip, phone) {
+
+    let tempSecond = {address: address, apt: apt, city: city, state: state, zip: zip, phone: phone};
+
+    axios.post('/checkout/second', tempSecond)
+      .then((response) => {
+
+      })
+      .catch((err) => {
+        console.log('error submitting second form', err);
+      })
+
+      this.setState({
+        thirdBtn: true
+      })
+  }
+
+  ThirdFormNext (cc, expiration, cvv, billingZip) {
+
+    let tempThird = {cc: cc, expiration: expiration, cvv: cvv, billingZip: billingZip}
+
+    axios.post('/checkout/third', tempThird)
+      .then((response) => {
+
+      })
+      .catch((err) => {
+        console.log('err posting third', err);
+      })
+
+    this.setState({
+      fourthBtn: true
+    })
+  }
+
   render () {
+
+    if (this.state.fourthBtn) {
+      return (
+        <div>
+          <>This will be a summary page of all the info</>
+        </div>
+      )
+    }
+
+    if (this.state.thirdBtn) {
+      return (
+        <div>
+          <ThirdForm ThirdFormNext={this.ThirdFormNext}/>
+        </div>
+      )
+    }
 
     if (this.state.secondBtn) {
       return (
         <div>
-          <>second test</>
+          <SecondForm SecondFormNext={this.SecondFormNext}/>
         </div>
       )
     }

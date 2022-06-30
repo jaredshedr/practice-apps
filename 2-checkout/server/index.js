@@ -33,5 +33,23 @@ app.post('/checkout', (req, res) => {
   });
 })
 
+app.post('/checkout/second', (req, res) => {
+  req.body.session = req.session_id;
+  db.updateFormTwo(req.body, (err, data) => {
+    if (err) {
+      console.log('error updating form two'. err)
+      res.status(500).send(err)
+    } else {
+      console.log(data);
+      res.status(201).send('succcessful update');
+    }
+  })
+})
+
+app.post('/checkout/third', (req, res) => {
+  req.body.session = req.session_id;
+  console.log(req.body);
+})
+
 app.listen(process.env.PORT);
 console.log(`Listening at http://localhost:${process.env.PORT}`);

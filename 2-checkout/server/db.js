@@ -22,7 +22,6 @@ db.connectAsync()
   .catch((err) => console.log('this is the err', err));
 
 db.addOrUpdateFormOne = function (data, callback) {
-  console.log(data);
   db.queryAsync('INSERT INTO USER (session_id, name, email, password) Values (?, ?, ?, ?)', [data.session, data.name, data.email, data.password], (err, success) => {
     if (err) {
       console.log('error inserting into db', err)
@@ -34,4 +33,28 @@ db.addOrUpdateFormOne = function (data, callback) {
   })
 }
 
+db.updateFormTwo = function (data, callback) {
+  db.queryAsync(`UPDATE user SET street_add = ?, apartment = ?, city = ?, state = ?, zip = ?, phone = ?
+  WHERE session_id = ?`, [data.address, data.apt, data.city, data.state, data.zip, data.phone, data.session], (err, success) => {
+    if (err) {
+      console.log(err);
+      callback(err, null);
+    } else {
+      console.log('added')
+      callback(null, 'success');
+    }
+  })
+}
+
 module.exports = db;
+
+
+// UPDATE items,month SET items.price=month.price
+// WHERE items.id=month.id;
+
+// street_add VARCHAR(255),
+//   apartment VARCHAR(255),
+//   city VARCHAR(255),
+//   state VARCHAR(255),
+//   zip INT,
+//   phone INT,
