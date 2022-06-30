@@ -24,6 +24,8 @@ class App extends React.Component {
     this.manualAddOnClick = this.manualAddOnClick.bind(this);
     this.filter = this.filter.bind(this);
     this.editOneHelper = this.editOneHelper.bind(this);
+    this.backToDict = this.backToDict.bind(this);
+    this.filterBack = this.filterBack.bind(this);
   }
 
   componentDidMount () {
@@ -117,14 +119,33 @@ class App extends React.Component {
     })
   }
 
+  backToDict () {
+    console.log('back button')
+    axios.get('/words')
+    .then((response) => {
+      this.setState({
+        allWords: response.data
+      })
+    })
+    .catch((err) => {
+      console.log('error getting all words', err)
+    })
+  }
+
+  filterBack () {
+    this.setState({
+      filterBool: false
+    })
+  }
+
 
   render () {
     return (
       <div>
         <h2> Glossary </h2>
-        <NewWord appSearch={this.search}/>
+        <NewWord appSearch={this.search} backToDict={this.backToDict}/>
         <ManualAdd manual={this.manualAddOnClick}/>
-        <Filter filter={this.filter}/>
+        <Filter filter={this.filter} filterBack={this.filterBack}/>
         <RenderWords editOneHelper={this.editOneHelper} editBool={this.state.editBool} words={ this.state.filterBool === false ? this.state.allWords : this.state.filtered } deleteOne={this.deleteOne} editOne={this.editOne}/>
       </div>
     )

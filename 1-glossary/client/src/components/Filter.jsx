@@ -27,6 +27,7 @@ class Filter extends React.Component {
         <h3>Filter Words</h3>
         <input onChange={this.inputChange}></input>
         <button onClick={this.callFilter}>Filter By</button>
+        <button onClick={this.props.filterBack}>Back to Main Dictionary</button>
       </>
     )
   }
