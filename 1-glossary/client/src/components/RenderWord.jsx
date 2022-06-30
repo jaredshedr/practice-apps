@@ -2,11 +2,12 @@ import react from "react";
 
 
 let RenderWord = function ({ word, deleteOne, editOne }) {
+
   return (
     <li>
       <div>{word.name}</div>
-      <div>{word.type}</div>
-      <div>{word.description}</div>
+      <div> <i>Type: </i>{word.type}</div>
+      <div> <i>Description: </i> { word.description}</div>
       <button onClick={(event) => editOne(word.name)}>Edit</button>
       <button onClick={(event) => deleteOne(word.name)}>Delete</button>
     </li>
@@ -15,3 +16,6 @@ let RenderWord = function ({ word, deleteOne, editOne }) {
 
 
 export default RenderWord
+
+
+// on click of edit, change a piece of state to true, which renders out a new form with all fields.

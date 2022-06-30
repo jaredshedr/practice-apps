@@ -58,7 +58,7 @@ let deleteOne = function (word, callback) {
 
 let addOne = function (data, callback) {
 
-  Word.findOneAndUpdate({name: data.newName}, {name: data.newName, description: data.newDesc}, {upsert: true}, (err, result) => {
+  Word.findOneAndUpdate({name: data.newName}, {name: data.newName, type: 'fake news', description: data.newDesc}, {upsert: true}, (err, result) => {
     if (err) {
       console.log('error updating', err);
       callback(err, null);

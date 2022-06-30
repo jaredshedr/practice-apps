@@ -24,7 +24,7 @@ class Filter extends React.Component {
   render () {
     return (
       <>
-        <h3>FILTER WORDS</h3>
+        <h3>Filter Words</h3>
         <input onChange={this.inputChange}></input>
         <button onClick={this.callFilter}>Filter By</button>
       </>

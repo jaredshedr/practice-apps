@@ -111,7 +111,7 @@ class App extends React.Component {
         <NewWord appSearch={this.search}/>
         <ManualAdd manual={this.manualAddOnClick}/>
         <Filter filter={this.filter}/>
-        <RenderWords words={ this.state.filterBool === false ? this.state.allWords :  this.state.filtered } deleteOne={this.deleteOne} editOne={this.editOne}/>
+        <RenderWords words={ this.state.filterBool === false ? this.state.allWords : this.state.filtered } deleteOne={this.deleteOne} editOne={this.editOne}/>
       </div>
     )
   }

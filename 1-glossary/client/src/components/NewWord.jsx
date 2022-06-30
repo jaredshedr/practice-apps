@@ -26,6 +26,7 @@ class NewWord extends React.Component {
   render () {
     return (
       <div>
+        <h3>Check the Dictionary</h3>
         <input onChange={this.search}></input>
         <button onClick={this.submit}>Add Word</button>
       </div>
