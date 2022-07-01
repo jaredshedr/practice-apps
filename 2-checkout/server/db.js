@@ -46,6 +46,30 @@ db.updateFormTwo = function (data, callback) {
   })
 }
 
+db.updateFormThree = function (data, callback) {
+  console.log(data);
+  db.queryAsync('UPDATE user SET credit_card = ?, expiration = ?, cvv = ?, cc_zip = ? WHERE session_id = ?', [data.cc, data.expiration, data.cvv, data.billingZip, data.session], (err, success) => {
+    if (err) {
+      console.log(err);
+      callback(err, null);
+    } else {
+      console.log('added');
+      callback(null, 'success');
+    }
+  })
+}
+
+db.getUser = function (id, callback) {
+  db.queryAsync('SELECT * FROM user Where session_id = ?', [id], (err, data) => {
+    if (err) {
+      console.log(err);
+      callback(err, null);
+    } else {
+      callback(null, data);
+    }
+  })
+}
+
 module.exports = db;
 
 

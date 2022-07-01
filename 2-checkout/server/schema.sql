@@ -13,9 +13,9 @@ CREATE TABLE user (
   state VARCHAR(255),
   zip VARCHAR(255),
   phone VARCHAR(255),
-  credit_card INT,
-  expiration INT,
-  cvv INT,
-  cc_zip INT,
+  credit_card VARCHAR(255),
+  expiration VARCHAR(255),
+  cvv VARCHAR(255),
+  cc_zip VARCHAR(255),
   PRIMARY KEY (session_id)
 );

@@ -48,7 +48,25 @@ app.post('/checkout/second', (req, res) => {
 
 app.post('/checkout/third', (req, res) => {
   req.body.session = req.session_id;
-  console.log(req.body);
+  db.updateFormThree(req.body, (err, data) => {
+    if (err) {
+      console.log('error adding third form')
+      res.status(500).send('failure')
+    } else {
+      res.status(201).send('succesful third posting')
+    }
+  })
+})
+
+app.get('/checkout', (req, res) => {
+  db.getUser(req.session_id, (err, data) => {
+    if (err) {
+      console.log(err)
+      res.status(500).send('failure retrieving info')
+    } else {
+      res.status(200).send(data);
+    }
+  })
 })
 
 app.listen(process.env.PORT);

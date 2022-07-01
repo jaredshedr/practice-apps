@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import FirstForm from './components/FirstForm.jsx'
 import SecondForm from './components/SecondForm.jsx'
 import ThirdForm from './components/ThirdForm.jsx'
+import AllData from './components/AllData.jsx'
 const axios = require('axios');
 
 
@@ -14,7 +15,8 @@ class App extends React.Component {
       firstBtn: false,
       secondBtn: false,
       thirdBtn: false,
-      fourthBtn: false
+      fourthBtn: false,
+      allData: []
     }
 
     this.firstCheckout = this.firstCheckout.bind(this);
@@ -23,15 +25,15 @@ class App extends React.Component {
     this.ThirdFormNext = this.ThirdFormNext.bind(this);
   }
 
-  firstCheckout () {
+  firstCheckout() {
     this.setState({
       firstBtn: true
     })
   }
 
-  firstFormNext (name, password, email) {
+  firstFormNext(name, password, email) {
 
-    let firstEntry = {name: name, email:email, password:password};
+    let firstEntry = { name: name, email: email, password: password };
     axios.post('/checkout', firstEntry)
       .then((response) => {
         window.alert('Signed In!')
@@ -47,9 +49,9 @@ class App extends React.Component {
     })
   }
 
-  SecondFormNext (address, apt, city, state, zip, phone) {
+  SecondFormNext(address, apt, city, state, zip, phone) {
 
-    let tempSecond = {address: address, apt: apt, city: city, state: state, zip: zip, phone: phone};
+    let tempSecond = { address: address, apt: apt, city: city, state: state, zip: zip, phone: phone };
 
     axios.post('/checkout/second', tempSecond)
       .then((response) => {
@@ -59,34 +61,38 @@ class App extends React.Component {
         console.log('error submitting second form', err);
       })
 
-      this.setState({
-        thirdBtn: true
-      })
+    this.setState({
+      thirdBtn: true
+    })
   }
 
-  ThirdFormNext (cc, expiration, cvv, billingZip) {
+  ThirdFormNext(cc, expiration, cvv, billingZip) {
 
-    let tempThird = {cc: cc, expiration: expiration, cvv: cvv, billingZip: billingZip}
-
+    let tempThird = { cc: cc, expiration: expiration, cvv: cvv, billingZip: billingZip }
     axios.post('/checkout/third', tempThird)
       .then((response) => {
-
+        axios.get('/checkout')
+          .then((response) => {
+            this.setState({
+              allData: response.data,
+              fourthBtn: true
+            })
+          })
+          .catch((err) => {
+            console.log('error receiving data', err)
+          })
       })
       .catch((err) => {
         console.log('err posting third', err);
       })
-
-    this.setState({
-      fourthBtn: true
-    })
   }
 
-  render () {
+  render() {
 
     if (this.state.fourthBtn) {
       return (
         <div>
-          <>This will be a summary page of all the info</>
+          <AllData allData={this.state.allData}/>
         </div>
       )
     }
@@ -94,7 +100,7 @@ class App extends React.Component {
     if (this.state.thirdBtn) {
       return (
         <div>
-          <ThirdForm ThirdFormNext={this.ThirdFormNext}/>
+          <ThirdForm ThirdFormNext={this.ThirdFormNext} />
         </div>
       )
     }
@@ -102,7 +108,7 @@ class App extends React.Component {
     if (this.state.secondBtn) {
       return (
         <div>
-          <SecondForm SecondFormNext={this.SecondFormNext}/>
+          <SecondForm SecondFormNext={this.SecondFormNext} />
         </div>
       )
     }
@@ -120,7 +126,7 @@ class App extends React.Component {
     } else if (this.state.firstBtn) {
       return (
         <div>
-          <FirstForm firstFormNext={this.firstFormNext}/>
+          <FirstForm firstFormNext={this.firstFormNext} />
         </div>
       )
     }
@@ -128,7 +134,7 @@ class App extends React.Component {
 }
 
 
-ReactDOM.render(<App/>, document.getElementById("root"))
+ReactDOM.render(<App />, document.getElementById("root"))
 
 
 //<code>Page Cookie: {JSON.stringify(document.cookie, undefined, "\t")}</code>
