@@ -37,7 +37,7 @@ class FirstForm extends React.Component {
   render () {
     return (
       <div>
-        <h2>Account Creation</h2>
+        <h2>Sign In</h2>
         <input onChange={this.nameChange} placeholder="Name"></input>
         <input onChange={this.emailChange} placeholder="Email"></input>
         <input onChange={this.passwordChange} placeholder="Password"></input>

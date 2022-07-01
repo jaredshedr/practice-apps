@@ -23,6 +23,7 @@ class App extends React.Component {
     this.firstFormNext = this.firstFormNext.bind(this);
     this.SecondFormNext = this.SecondFormNext.bind(this);
     this.ThirdFormNext = this.ThirdFormNext.bind(this);
+    this.FourthFormNext = this.FourthFormNext.bind(this);
   }
 
   firstCheckout() {
@@ -87,12 +88,21 @@ class App extends React.Component {
       })
   }
 
+  FourthFormNext () {
+    this.setState({
+      firstBtn: false,
+      secondBtn: false,
+      thirdBtn: false,
+      fourthBtn: false
+    })
+  }
+
   render() {
 
     if (this.state.fourthBtn) {
       return (
         <div>
-          <AllData allData={this.state.allData}/>
+          <AllData FourthFormNext={this.FourthFormNext} allData={this.state.allData}/>
         </div>
       )
     }
